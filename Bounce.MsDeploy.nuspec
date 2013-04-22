@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Bounce.MsDeploy</id>
+    <version>0.0.1</version>
+    <authors>Tim Macfarlane</authors>
+    <owners>Tim Macfarlane</owners>
+    <projectUrl>https://github.com/featurist/Bounce.MsDeploy</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>makes msdeploy not mental</description>
+    <tags>build CI deploy</tags>
+    <dependencies>
+      <dependency id="Bounce" version="0.9.0" />
+      <dependency id="Bounce.Config" version="0.0.3" />
+      <dependency id="FS" version="0.0.3" />
+    </dependencies>
+  </metadata>
+  <files>
+	<file src="Bounce.MsDeploy\bin\Debug\Bounce.MsDeploy.dll" target="lib\net40" />
+	<file src="Bounce.MsDeploy\bin\Debug\Bounce.MsDeploy.pdb" target="lib\net40" />
+  </files>
+</package>
