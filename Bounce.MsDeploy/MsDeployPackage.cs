@@ -55,7 +55,7 @@ namespace Bounce.MsDeploy
 
             var configFile = ConfigFileIn(archiveDir);
             var templateFile = Path.Combine(webProject, "web.template.config");
-            _config.ConfigureFiles(templateFile, environment, new[] {configFile});
+            _config.ConfigureFile(templateFile, environment, configFile);
 
             RemoveWebConfigParameters(archiveDir);
 
