@@ -53,9 +53,9 @@ namespace Bounce.MsDeploy
             var archiveDir = CreateTemporaryDirectory();
             ExtractZipFile(zipPackage, archiveDir);
 
-            var configFiles = ConfigFilesIn(archiveDir);
+            var configFile = ConfigFileIn(archiveDir);
             var templateFile = Path.Combine(webProject, "web.template.config");
-            _config.ConfigureFiles(templateFile, environment, configFiles);
+            _config.ConfigureFiles(templateFile, environment, new[] {configFile});
 
             RemoveWebConfigParameters(archiveDir);
 
@@ -89,9 +89,9 @@ namespace Bounce.MsDeploy
             new ICSharpCode.SharpZipLib.Zip.FastZip().ExtractZip(zipPackage, archive, null);
         }
 
-        private static IEnumerable<string> ConfigFilesIn(string archive)
+        private static string ConfigFileIn(string archive)
         {
-            return new FileSystem().Find(archive, dir => dir == archive).Where(IsWebConfig);
+            return new FileSystem().Find(archive).First(IsWebConfig);
         }
 
         private static bool IsWebConfig(string path)
