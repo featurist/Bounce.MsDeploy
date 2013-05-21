@@ -53,7 +53,7 @@ namespace Bounce.MsDeploy
             var archiveDir = CreateTemporaryDirectory();
             ExtractZipFile(zipPackage, archiveDir);
 
-            var configFile = FindRootWebConfig(archiveDir);
+            var configFile = ConfigFileIn(archiveDir);
             var templateFile = Path.Combine(webProject, "web.template.config");
             _config.ConfigureFile(templateFile, environment, configFile);
 
@@ -89,21 +89,22 @@ namespace Bounce.MsDeploy
             new ICSharpCode.SharpZipLib.Zip.FastZip().ExtractZip(zipPackage, archive, null);
         }
 
+        private static string ConfigFileIn(string archive)
+        {
+            return new FileSystem().Find(archive).First(IsWebConfig);
+        }
+
+        private static bool IsWebConfig(string path)
+        {
+            return Path.GetFileName(path).Equals("Web.config", StringComparison.InvariantCultureIgnoreCase);
+        }
+
         private static IEnumerable<string> Servers(Dictionary<string, object> environmentVariables)
         {
             var environmentVariable = environmentVariables.ContainsKey("servers")
                                           ? environmentVariables["servers"]
                                           : environmentVariables["server"];
             return environmentVariable.ToString().Split(',').Select(s => s.Trim());
-        }
-
-        private string FindRootWebConfig(string archive)
-        {
-            return (
-                    from directory in Directory.GetDirectories(archive) 
-                    let webConfigFile = Directory.GetFiles(directory, "Web.config").SingleOrDefault() 
-                    select webConfigFile ?? FindRootWebConfig(directory)
-                ).FirstOrDefault();
         }
     }
 }
