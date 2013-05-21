@@ -24,9 +24,9 @@ namespace Bounce.MsDeploy
             _config = config;
         }
 
-        public void Deploy(string package, string webProject, Dictionary<string, object> environment, string username = "", string password = "", bool templateRootConfigOnly = false)
+        public void Deploy(string package, string webProject, Dictionary<string, object> environment, string username = "", string password = "")
         {
-            var archive = ConfiguredMsDeployArchiveDirectory(package, webProject, environment, templateRootConfigOnly);
+            var archive = ConfiguredMsDeployArchiveDirectory(package, webProject, environment);
             var servers = Servers(environment);
 
             foreach (var server in servers)
@@ -48,12 +48,12 @@ namespace Bounce.MsDeploy
             }
         }
 
-        private string ConfiguredMsDeployArchiveDirectory(string zipPackage, string webProject, Dictionary<string, object> environment, bool templateRootConfigOnly)
+        private string ConfiguredMsDeployArchiveDirectory(string zipPackage, string webProject, Dictionary<string, object> environment)
         {
             var archiveDir = CreateTemporaryDirectory();
             ExtractZipFile(zipPackage, archiveDir);
 
-            var configFiles = ConfigFilesIn(archiveDir, templateRootConfigOnly);
+            var configFiles = ConfigFilesIn(archiveDir);
             var templateFile = Path.Combine(webProject, "web.template.config");
             _config.ConfigureFiles(templateFile, environment, configFiles);
 
@@ -89,16 +89,9 @@ namespace Bounce.MsDeploy
             new ICSharpCode.SharpZipLib.Zip.FastZip().ExtractZip(zipPackage, archive, null);
         }
 
-        private static IEnumerable<string> ConfigFilesIn(string archive, bool templateRootConfigOnly)
+        private static IEnumerable<string> ConfigFilesIn(string archive)
         {
-            Predicate<string> directoryFilter = null;
-
-            if (templateRootConfigOnly)
-            {
-                directoryFilter = dir => dir == archive;
-            }
-
-            return new FileSystem().Find(archive, directoryFilter).Where(IsWebConfig);
+            return new FileSystem().Find(archive, dir => dir == archive).Where(IsWebConfig);
         }
 
         private static bool IsWebConfig(string path)
