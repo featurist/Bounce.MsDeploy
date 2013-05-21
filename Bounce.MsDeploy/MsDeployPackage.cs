@@ -53,7 +53,7 @@ namespace Bounce.MsDeploy
             var archiveDir = CreateTemporaryDirectory();
             ExtractZipFile(zipPackage, archiveDir);
 
-            var configFile = Path.Combine(webProject, "web.config");
+            var configFile = FindRootWebConfig(archiveDir);
             var templateFile = Path.Combine(webProject, "web.template.config");
             _config.ConfigureFile(templateFile, environment, configFile);
 
@@ -95,6 +95,15 @@ namespace Bounce.MsDeploy
                                           ? environmentVariables["servers"]
                                           : environmentVariables["server"];
             return environmentVariable.ToString().Split(',').Select(s => s.Trim());
+        }
+
+        private string FindRootWebConfig(string archive)
+        {
+            return (
+                    from directory in Directory.GetDirectories(archive) 
+                    let webConfigFile = Directory.GetFiles(directory, "Web.config").SingleOrDefault() 
+                    select webConfigFile ?? FindRootWebConfig(directory)
+                ).FirstOrDefault();
         }
     }
 }
