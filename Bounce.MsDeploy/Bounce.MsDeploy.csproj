@@ -58,7 +58,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleOutput.cs" />
     <Compile Include="ExecArgsBuilder.cs" />
+    <Compile Include="IOutput.cs" />
     <Compile Include="MsDeployPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
