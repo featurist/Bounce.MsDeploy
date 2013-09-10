@@ -8,6 +8,8 @@ using System.Xml.XPath;
 using Bounce.Config;
 using Bounce.Framework;
 using FS;
+using ICSharpCode.SharpZipLib.Core;
+using ICSharpCode.SharpZipLib.Zip;
 
 namespace Bounce.MsDeploy
 {
@@ -16,16 +18,21 @@ namespace Bounce.MsDeploy
         private readonly ILog _log;
         private readonly IShell _shell;
         private readonly TemplateConfigurer _config;
+        private readonly IOutput _output;
+        private bool _verbose;
 
-        public MsDeployPackage(ILog log, IShell shell, TemplateConfigurer config)
+        public MsDeployPackage(ILog log, IShell shell, TemplateConfigurer config, IOutput output)
         {
             _log = log;
             _shell = shell;
             _config = config;
+            _output = output;
         }
 
-        public void Deploy(string package, string webProject, Dictionary<string, object> environment, string username = "", string password = "")
+        public void Deploy(string package, string webProject, Dictionary<string, object> environment, string username = "", string password = "", bool verbose = false)
         {
+            _verbose = verbose;
+
             var archive = ConfiguredMsDeployArchiveDirectory(package, webProject, environment);
             var servers = Servers(environment);
 
@@ -83,10 +90,22 @@ namespace Bounce.MsDeploy
             Directory.CreateDirectory(tempDirectory);
             return tempDirectory;
         }
-
-        private static void ExtractZipFile(string zipPackage, string archive)
+        
+        private void ExtractZipFile(string zipPackage, string archive)
         {
-            new ICSharpCode.SharpZipLib.Zip.FastZip().ExtractZip(zipPackage, archive, null);
+            var events = new FastZipEvents();
+
+            if (_verbose)
+            {
+                events.ProcessFile = ProcessFile;
+            }
+
+            new FastZip(events).ExtractZip(zipPackage, archive, null);
+        }
+
+        private void ProcessFile(object sender, ScanEventArgs e)
+        {
+            _output.Output("Processing file: " + e.Name);
         }
 
         private static string ConfigFileIn(string archive)
