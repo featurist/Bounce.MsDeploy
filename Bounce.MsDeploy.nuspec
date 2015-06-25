@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>Bounce.MsDeploy</id>
-    <version>0.0.4</version>
+    <version>0.1.0</version>
     <authors>Tim Macfarlane</authors>
     <owners>Tim Macfarlane</owners>
     <projectUrl>https://github.com/featurist/Bounce.MsDeploy</projectUrl>
