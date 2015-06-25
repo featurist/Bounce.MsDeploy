@@ -31,11 +31,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Bounce.Config">
-      <HintPath>..\packages\Bounce.Config.0.0.3\lib\net40\Bounce.Config.dll</HintPath>
+    <Reference Include="Bounce.Config, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Bounce.Config.0.1.0\lib\net40\Bounce.Config.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Bounce.Framework">
-      <HintPath>..\packages\Bounce.0.9.0\lib\net40\Bounce.Framework.dll</HintPath>
+    <Reference Include="Bounce.Framework, Version=0.7.5308.27601, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Bounce.0.9.3\lib\net40\Bounce.Framework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="FS">
       <HintPath>..\packages\FS.0.0.3\lib\net40\FS.dll</HintPath>
@@ -43,11 +45,13 @@
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.5.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Nustache.Core">
-      <HintPath>..\packages\Nustache.1.12.4.29\lib\net20\Nustache.Core.dll</HintPath>
+    <Reference Include="Nustache.Core, Version=1.15.1.3, Culture=neutral, PublicKeyToken=efd6f3d8f76ecd9f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nustache.1.15.1.3\lib\net20\Nustache.Core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
